@@ -114,31 +114,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// YouTube iframe video handling
+// YouTube iframe video handling with fallback
 const iframe = document.querySelector('iframe[src*="youtube"]');
 if (iframe) {
     console.log('YouTube video iframe loaded');
     
-    // Add event listener for when iframe loads
-    iframe.addEventListener('load', function() {
-        console.log('YouTube iframe content loaded');
-    });
+    // Set a timeout to check if video loads properly
+    setTimeout(() => {
+        // Check if iframe content is accessible
+        try {
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            if (!iframeDoc || iframeDoc.body.innerHTML.includes('error') || iframeDoc.body.innerHTML.includes('153')) {
+                showVideoFallback();
+            }
+        } catch (e) {
+            // Cross-origin error is expected, but we can still check for other issues
+            console.log('Cross-origin access blocked (expected)');
+        }
+    }, 3000);
     
     // Handle iframe errors
     iframe.addEventListener('error', function() {
         console.log('YouTube iframe error occurred');
-        // Fallback: show a message or alternative content
-        const videoContainer = iframe.parentElement;
+        showVideoFallback();
+    });
+}
+
+function showVideoFallback() {
+    const videoContainer = document.querySelector('.about-video');
+    if (videoContainer) {
         videoContainer.innerHTML = `
-            <div style="background: #f8f9fa; padding: 2rem; text-align: center; border-radius: 10px;">
-                <h4>Video Yüklenemedi</h4>
-                <p>Video şu anda yüklenemiyor. Lütfen daha sonra tekrar deneyin.</p>
-                <a href="https://www.youtube.com/watch?v=Yk0pNKlTLKo" target="_blank" style="color: #3498db; text-decoration: none;">
-                    Videoyu YouTube'da İzle
+            <h3>Tanıtım Videosu</h3>
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 3rem; text-align: center; border-radius: 15px; color: white;">
+                <div style="margin-bottom: 2rem;">
+                    <i class="fab fa-youtube" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+                </div>
+                <h4 style="margin-bottom: 1rem; font-size: 1.5rem;">Videoyu YouTube'da İzleyin</h4>
+                <p style="margin-bottom: 2rem; opacity: 0.9;">Video şu anda burada oynatılamıyor, ancak YouTube'da izleyebilirsiniz.</p>
+                <a href="https://www.youtube.com/watch?v=Yk0pNKlTLKo" target="_blank" 
+                   style="background: #ff0000; color: white; padding: 15px 30px; text-decoration: none; border-radius: 50px; font-weight: 600; display: inline-block; transition: all 0.3s ease;">
+                    <i class="fab fa-youtube" style="margin-right: 10px;"></i>
+                    YouTube'da İzle
                 </a>
             </div>
         `;
-    });
+    }
 }
 
 // Add loading animation
