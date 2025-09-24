@@ -117,8 +117,28 @@ document.addEventListener('DOMContentLoaded', () => {
 // YouTube iframe video handling
 const iframe = document.querySelector('iframe[src*="youtube"]');
 if (iframe) {
-    // YouTube iframe is already set to autoplay, so no additional handling needed
     console.log('YouTube video iframe loaded');
+    
+    // Add event listener for when iframe loads
+    iframe.addEventListener('load', function() {
+        console.log('YouTube iframe content loaded');
+    });
+    
+    // Handle iframe errors
+    iframe.addEventListener('error', function() {
+        console.log('YouTube iframe error occurred');
+        // Fallback: show a message or alternative content
+        const videoContainer = iframe.parentElement;
+        videoContainer.innerHTML = `
+            <div style="background: #f8f9fa; padding: 2rem; text-align: center; border-radius: 10px;">
+                <h4>Video Yüklenemedi</h4>
+                <p>Video şu anda yüklenemiyor. Lütfen daha sonra tekrar deneyin.</p>
+                <a href="https://www.youtube.com/watch?v=Yk0pNKlTLKo" target="_blank" style="color: #3498db; text-decoration: none;">
+                    Videoyu YouTube'da İzle
+                </a>
+            </div>
+        `;
+    });
 }
 
 // Add loading animation
