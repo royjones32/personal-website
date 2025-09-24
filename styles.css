@@ -84,6 +84,20 @@ body {
     width: 100%;
 }
 
+/* Instagram link styling in navigation */
+.nav-link[href*="instagram"] {
+    color: #e1306c;
+    font-weight: 600;
+}
+
+.nav-link[href*="instagram"]:hover {
+    color: #c13584;
+}
+
+.nav-link[href*="instagram"]::after {
+    background-color: #e1306c;
+}
+
 .hamburger {
     display: none;
     flex-direction: column;
@@ -420,6 +434,11 @@ body {
 
 .social-links a:hover {
     color: #3498db;
+}
+
+/* Instagram specific styling */
+.social-links a[href*="instagram"]:hover {
+    color: #e1306c;
 }
 
 /* Responsive Design */
