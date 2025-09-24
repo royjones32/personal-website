@@ -114,30 +114,65 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// YouTube iframe video handling
+// YouTube iframe video handling with smart fallback
 const iframe = document.querySelector('iframe[src*="youtube"]');
 if (iframe) {
     console.log('YouTube video iframe loaded');
     
+    // Set a timeout to check if video loads properly
+    setTimeout(() => {
+        // Check if iframe is showing error content
+        try {
+            // Try to access iframe content (this will fail due to CORS, but we can still check)
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            if (!iframeDoc) {
+                console.log('Iframe content not accessible - checking for errors');
+                // Check if iframe has loaded properly by checking its dimensions
+                if (iframe.offsetHeight === 0 || iframe.offsetWidth === 0) {
+                    showVideoFallback();
+                }
+            }
+        } catch (e) {
+            // CORS error is expected, but we can still check for other issues
+            console.log('Cross-origin access blocked (expected)');
+        }
+    }, 2000);
+    
     // Add event listener for when iframe loads
     iframe.addEventListener('load', function() {
         console.log('YouTube iframe content loaded');
-        
-        // Add click event to ensure video plays when clicked
-        iframe.addEventListener('click', function() {
-            console.log('Video iframe clicked - should play video');
-        });
     });
     
-    // Ensure iframe is properly loaded
+    // Handle iframe errors
     iframe.addEventListener('error', function() {
         console.log('Iframe error occurred');
-        // Try to reload the iframe with a different approach
-        setTimeout(() => {
-            const newSrc = iframe.src.replace('enablejsapi=1&', '');
-            iframe.src = newSrc;
-        }, 1000);
+        showVideoFallback();
     });
+}
+
+function showVideoFallback() {
+    const videoContainer = document.querySelector('.about-video');
+    if (videoContainer) {
+        videoContainer.innerHTML = `
+            <h3>Tanıtım Videosu</h3>
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 3rem; text-align: center; border-radius: 15px; color: white; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+                <div style="margin-bottom: 2rem;">
+                    <i class="fas fa-play-circle" style="font-size: 5rem; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);"></i>
+                </div>
+                <h4 style="margin-bottom: 1rem; font-size: 1.8rem; font-weight: 700;">Videoyu İzleyin</h4>
+                <p style="margin-bottom: 2rem; opacity: 0.9; font-size: 1.1rem;">Video şu anda burada oynatılamıyor, ancak YouTube'da izleyebilirsiniz.</p>
+                <a href="https://www.youtube.com/watch?v=Yk0pNKlTLKo" target="_blank" 
+                   style="background: white; color: #667eea; padding: 18px 35px; text-decoration: none; border-radius: 50px; font-weight: 700; display: inline-block; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.2); font-size: 1.1rem;">
+                    <i class="fas fa-play" style="margin-right: 10px; font-size: 1.2rem;"></i>
+                    Videoyu İzle
+                </a>
+                <div style="margin-top: 1.5rem; opacity: 0.8; font-size: 0.9rem;">
+                    <i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>
+                    Yeni sekmede açılır
+                </div>
+            </div>
+        `;
+    }
 }
 
 // Add loading animation
