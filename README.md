@@ -83,6 +83,7 @@ Site içinde gömülü video oynatma özelliği bulunmaktadır. Video:
 - **Telefon**: 0531 486 52 32
 - **LinkedIn**: [linkedin.com/in/mahmuthakancatal](https://linkedin.com/in/mahmuthakancatal)
 - **GitHub**: [github.com/mahmuthakancatal](https://github.com/mahmuthakancatal)
+- **Instagram**: [instagram.com/hakan_catall](https://instagram.com/hakan_catall)
 
 ## 📄 Lisans
 
