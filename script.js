@@ -122,17 +122,81 @@ if (video) {
     // Add event listener for when video loads
     video.addEventListener('loadeddata', function() {
         console.log('Video data loaded');
+        
+        // Try to autoplay the video
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                console.log('Video autoplay started');
+            }).catch(error => {
+                console.log('Autoplay failed:', error);
+                // If autoplay fails, show play button
+                showPlayButton();
+            });
+        }
     });
     
     // Add event listener for when video starts playing
     video.addEventListener('play', function() {
         console.log('Video started playing');
+        hidePlayButton();
     });
     
     // Add event listener for when video is paused
     video.addEventListener('pause', function() {
         console.log('Video paused');
     });
+    
+    // Add event listener for when video ends
+    video.addEventListener('ended', function() {
+        console.log('Video ended');
+        // Restart video if loop is enabled
+        if (video.loop) {
+            video.currentTime = 0;
+            video.play();
+        }
+    });
+}
+
+function showPlayButton() {
+    const videoContainer = document.querySelector('.about-video');
+    if (videoContainer && !videoContainer.querySelector('.play-overlay')) {
+        const playOverlay = document.createElement('div');
+        playOverlay.className = 'play-overlay';
+        playOverlay.innerHTML = `
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.7); border-radius: 50%; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;">
+                <i class="fas fa-play" style="color: white; font-size: 2rem; margin-left: 5px;"></i>
+            </div>
+        `;
+        playOverlay.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        `;
+        
+        playOverlay.addEventListener('click', function() {
+            const video = document.querySelector('video');
+            if (video) {
+                video.play();
+            }
+        });
+        
+        videoContainer.style.position = 'relative';
+        videoContainer.appendChild(playOverlay);
+    }
+}
+
+function hidePlayButton() {
+    const playOverlay = document.querySelector('.play-overlay');
+    if (playOverlay) {
+        playOverlay.remove();
+    }
 }
 
 // Add loading animation
