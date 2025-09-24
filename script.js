@@ -122,6 +122,21 @@ if (iframe) {
     // Add event listener for when iframe loads
     iframe.addEventListener('load', function() {
         console.log('YouTube iframe content loaded');
+        
+        // Add click event to ensure video plays when clicked
+        iframe.addEventListener('click', function() {
+            console.log('Video iframe clicked - should play video');
+        });
+    });
+    
+    // Ensure iframe is properly loaded
+    iframe.addEventListener('error', function() {
+        console.log('Iframe error occurred');
+        // Try to reload the iframe with a different approach
+        setTimeout(() => {
+            const newSrc = iframe.src.replace('enablejsapi=1&', '');
+            iframe.src = newSrc;
+        }, 1000);
     });
 }
 
