@@ -128,6 +128,10 @@ if (video) {
         if (playPromise !== undefined) {
             playPromise.then(() => {
                 console.log('Video autoplay started');
+                // Show unmute button after video starts
+                setTimeout(() => {
+                    showUnmuteButton();
+                }, 1000);
             }).catch(error => {
                 console.log('Autoplay failed:', error);
                 // If autoplay fails, show play button
@@ -196,6 +200,49 @@ function hidePlayButton() {
     const playOverlay = document.querySelector('.play-overlay');
     if (playOverlay) {
         playOverlay.remove();
+    }
+}
+
+function showUnmuteButton() {
+    const videoContainer = document.querySelector('.about-video');
+    if (videoContainer && !videoContainer.querySelector('.unmute-overlay')) {
+        const unmuteOverlay = document.createElement('div');
+        unmuteOverlay.className = 'unmute-overlay';
+        unmuteOverlay.innerHTML = `
+            <div style="position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.7); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; z-index: 20;">
+                <i class="fas fa-volume-mute" style="color: white; font-size: 1.5rem;"></i>
+            </div>
+        `;
+        unmuteOverlay.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        `;
+        
+        const unmuteButton = unmuteOverlay.querySelector('div');
+        unmuteButton.style.pointerEvents = 'auto';
+        
+        unmuteButton.addEventListener('click', function() {
+            const video = document.querySelector('video');
+            if (video) {
+                video.muted = false;
+                unmuteOverlay.remove();
+            }
+        });
+        
+        videoContainer.style.position = 'relative';
+        videoContainer.appendChild(unmuteOverlay);
+        
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            if (unmuteOverlay.parentNode) {
+                unmuteOverlay.remove();
+            }
+        }, 5000);
     }
 }
 
