@@ -114,20 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Video play/pause on scroll
-const video = document.querySelector('video');
-if (video) {
-    const videoObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                video.play();
-            } else {
-                video.pause();
-            }
-        });
-    }, { threshold: 0.5 });
-    
-    videoObserver.observe(video);
+// YouTube iframe video handling
+const iframe = document.querySelector('iframe[src*="youtube"]');
+if (iframe) {
+    // YouTube iframe is already set to autoplay, so no additional handling needed
+    console.log('YouTube video iframe loaded');
 }
 
 // Add loading animation
