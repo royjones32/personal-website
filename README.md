@@ -1,10 +1,10 @@
-# Ahmet Yılmaz - Kişisel Web Sitesi
+# Mahmut Hakan Çatal - Kişisel Web Sitesi
 
 Bu proje, modern ve responsive tasarıma sahip kişisel tanıtım web sitesidir.
 
 ## 🌐 Canlı Demo
 
-**Web Sitesi:** [https://ahmetyilmaz.github.io/personal-website](https://ahmetyilmaz.github.io/personal-website)
+**Web Sitesi:** [https://royjones32.github.io/personal-website](https://royjones32.github.io/personal-website)
 
 ## ✨ Özellikler
 
@@ -79,10 +79,10 @@ Site içinde gömülü video oynatma özelliği bulunmaktadır. Video:
 
 ## 📞 İletişim
 
-- **Email**: ahmet.yilmaz@email.com
-- **Telefon**: +90 555 123 45 67
-- **LinkedIn**: [linkedin.com/in/ahmetyilmaz](https://linkedin.com/in/ahmetyilmaz)
-- **GitHub**: [github.com/ahmetyilmaz](https://github.com/ahmetyilmaz)
+- **Email**: hakancatal2018@gmail.com
+- **Telefon**: 0531 486 52 32
+- **LinkedIn**: [linkedin.com/in/mahmuthakancatal](https://linkedin.com/in/mahmuthakancatal)
+- **GitHub**: [github.com/mahmuthakancatal](https://github.com/mahmuthakancatal)
 
 ## 📄 Lisans
 
@@ -107,4 +107,4 @@ Bu proje MIT lisansı altında lisanslanmıştır.
 
 ---
 
-**© 2024 Ahmet Yılmaz - +90 555 123 45 67**
+**© 2024 Mahmut Hakan Çatal - 0531 486 52 32**
