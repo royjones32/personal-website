@@ -114,26 +114,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// YouTube iframe video handling with fallback
+// YouTube iframe video handling with immediate fallback
 const iframe = document.querySelector('iframe[src*="youtube"]');
 if (iframe) {
     console.log('YouTube video iframe loaded');
     
-    // Set a timeout to check if video loads properly
-    setTimeout(() => {
-        // Check if iframe content is accessible
-        try {
-            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-            if (!iframeDoc || iframeDoc.body.innerHTML.includes('error') || iframeDoc.body.innerHTML.includes('153')) {
-                showVideoFallback();
-            }
-        } catch (e) {
-            // Cross-origin error is expected, but we can still check for other issues
-            console.log('Cross-origin access blocked (expected)');
-        }
-    }, 3000);
+    // Immediate fallback - show YouTube link instead of iframe
+    showVideoFallback();
     
-    // Handle iframe errors
+    // Also set up error handling as backup
     iframe.addEventListener('error', function() {
         console.log('YouTube iframe error occurred');
         showVideoFallback();
@@ -145,17 +134,21 @@ function showVideoFallback() {
     if (videoContainer) {
         videoContainer.innerHTML = `
             <h3>Tanıtım Videosu</h3>
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 3rem; text-align: center; border-radius: 15px; color: white;">
+            <div style="background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%); padding: 3rem; text-align: center; border-radius: 15px; color: white; box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);">
                 <div style="margin-bottom: 2rem;">
-                    <i class="fab fa-youtube" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+                    <i class="fab fa-youtube" style="font-size: 5rem; margin-bottom: 1rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);"></i>
                 </div>
-                <h4 style="margin-bottom: 1rem; font-size: 1.5rem;">Videoyu YouTube'da İzleyin</h4>
-                <p style="margin-bottom: 2rem; opacity: 0.9;">Video şu anda burada oynatılamıyor, ancak YouTube'da izleyebilirsiniz.</p>
+                <h4 style="margin-bottom: 1rem; font-size: 1.8rem; font-weight: 700;">Videoyu YouTube'da İzleyin</h4>
+                <p style="margin-bottom: 2rem; opacity: 0.9; font-size: 1.1rem;">Video şu anda burada oynatılamıyor, ancak YouTube'da izleyebilirsiniz.</p>
                 <a href="https://www.youtube.com/watch?v=Yk0pNKlTLKo" target="_blank" 
-                   style="background: #ff0000; color: white; padding: 15px 30px; text-decoration: none; border-radius: 50px; font-weight: 600; display: inline-block; transition: all 0.3s ease;">
-                    <i class="fab fa-youtube" style="margin-right: 10px;"></i>
+                   style="background: white; color: #ff0000; padding: 18px 35px; text-decoration: none; border-radius: 50px; font-weight: 700; display: inline-block; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.2); font-size: 1.1rem;">
+                    <i class="fab fa-youtube" style="margin-right: 10px; font-size: 1.2rem;"></i>
                     YouTube'da İzle
                 </a>
+                <div style="margin-top: 1.5rem; opacity: 0.8; font-size: 0.9rem;">
+                    <i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>
+                    Yeni sekmede açılır
+                </div>
             </div>
         `;
     }
